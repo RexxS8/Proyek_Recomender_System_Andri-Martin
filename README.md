@@ -37,8 +37,8 @@ Dataset yang digunakan berasal dari **MovieLens Small Latest Dataset** dengan du
 
 | Dataset  | Jumlah Baris |
 |----------|---------------|
-| movies   | ~9.000        |
-| ratings  | ~100.000      |
+| movies   | 9.742         |
+| ratings  | 100.836       |
 
 Distribusi rating berada di kisaran 3.0–4.0. Beberapa visualisasi awal meliputi:
 - Histogram distribusi rating
@@ -87,11 +87,20 @@ knn.fit(csr_data)  # csr_data adalah matriks user-item dalam bentuk sparse
 
 ## Contoh Output - KNN (Collaborative Filtering)
 
-| Title                  | Avg. Rating | Cosine Distance |
-|------------------------|-------------|-----------------|
-| The Matrix Reloaded    | 3.6         | 0.11            |
-| The Matrix Revolutions | 3.2         | 0.14            |
-| Equilibrium            | 3.5         | 0.15            |
+Input: `Captain America: The Winter Soldier`
+
+| Title                          | Avg. Rating | Cosine Distance |
+|--------------------------------|-------------|-----------------|
+| Avengers: Age of Ultron (2015)  | 3.52        | 0.18            |
+| Iron Man 3 (2013)               | 3.56        | 0.28            |
+| Captain America: Civil War (2016)| 3.61      | 0.29            |
+| Thor: The Dark World (2013)     | 3.31        | 0.31            |
+| Star Trek Into Darkness (2013) | 3.69        | 0.33            |
+| X-Men: Days of Future Past (2014)| 3.83      | 0.34            |
+| Avengers, The (2012)            | 3.87        | 0.34            |
+| Guardians of the Galaxy (2014)  | 4.05        | 0.35            |
+| Iron Man 2 (2010)               | 3.51        | 0.37            |
+| Ant-Man (2015)                  | 3.72        | 0.38            |
 
 ---
 
@@ -145,16 +154,18 @@ model.compile(optimizer='adam', loss='mse', metrics=['mae'])
 - **Evaluasi**: Berdasarkan metrik regresi.
 - **Data**: Menggunakan data test.
 
-### Hasil Evaluasi:
+### 📈 Hasil Evaluasi Model Deep Learning (Embedding Based)
 
 | Metrik | Skor   |
 |--------|--------|
-| MAE    | ~0.69  |
-| MSE    | ~0.94  |
+| MAE    | 0.6792 |
+| MSE    | 0.8147 |
 
-### Penjelasan Metrik:
-- **MAE (Mean Absolute Error)**: Rata-rata selisih absolut antara nilai prediksi dan aktual.
-- **MSE (Mean Squared Error)**: Rata-rata kuadrat kesalahan prediksi.
+**Penjelasan:**
+- **MAE (Mean Absolute Error)**: Rata-rata selisih absolut antara rating yang diprediksi dan aktual.
+- **MSE (Mean Squared Error)**: Rata-rata kuadrat dari selisih antara prediksi dan aktual.
+
+Model ini menunjukkan performa yang cukup baik dalam memprediksi rating pengguna terhadap film. Nilai MAE dan MSE yang relatif rendah menunjukkan bahwa model mampu mempelajari pola interaksi pengguna dan film secara efektif
 
 ---
 
