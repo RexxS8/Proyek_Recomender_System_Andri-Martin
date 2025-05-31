@@ -144,7 +144,8 @@ Memprediksi rating yang mungkin diberikan user terhadap film tertentu.
 - Concatenate
 - Dense Layer
 - Output rating (regresi)
-**Arsitektur Model**:
+
+- **Arsitektur Model**:
 
 ```mermaid
 graph LR
