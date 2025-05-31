@@ -30,6 +30,11 @@ Referensi terkait:
 
 ## 📊 Data Understanding
 
+📂 **Dataset**:  
+Dataset yang digunakan dalam proyek ini adalah **MovieLens Latest Small Dataset** yang tersedia secara publik melalui Kaggle:
+
+➡️ [MovieLens Dataset - Kaggle (Shubham Mehta)](https://www.kaggle.com/datasets/shubhammehta21/movie-lens-small-latest-dataset)
+
 Dataset yang digunakan berasal dari **MovieLens Small Latest Dataset** dengan dua file utama:
 
 - `movies.csv`: Informasi `movieId`, `title`, dan `genres`.
