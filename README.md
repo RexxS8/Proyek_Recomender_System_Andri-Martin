@@ -144,6 +144,19 @@ Memprediksi rating yang mungkin diberikan user terhadap film tertentu.
 - Concatenate
 - Dense Layer
 - Output rating (regresi)
+**Arsitektur Model**:
+
+```mermaid
+graph LR
+A[User ID] --> B(Embedding Layer)
+C[Movie ID] --> D(Embedding Layer)
+B --> E[Flatten]
+D --> E
+E --> F[Concatenate]
+F --> G[Dense 128]
+G --> H[Dense 64]
+H --> I[Output Rating]
+```
 
 ### Parameter:
 - **Embedding size**: `50`
