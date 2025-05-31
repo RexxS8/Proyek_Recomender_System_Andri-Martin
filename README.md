@@ -26,6 +26,28 @@ Referensi terkait:
 - **Pendekatan 1**: Menggunakan **KNN** dengan cosine similarity untuk menghitung kemiripan antar film berdasarkan pola rating pengguna.
 - **Pendekatan 2**: Membangun model **Deep Learning** dengan dua embedding layer untuk mempelajari representasi laten pengguna dan film.
 
+### ⚖️ Kelebihan & Kekurangan Pendekatan
+
+#### 🔹 KNN Collaborative Filtering:
+- ✅ **Kelebihan**:
+  - Mudah diimplementasikan
+  - Interpretasi hasil yang intuitif
+  - Cocok untuk dataset kecil–menengah
+- ❌ **Kekurangan**:
+  - Tidak cocok untuk data sangat besar (tidak skalabel)
+  - Masalah *cold start* (user/film baru)
+  - Butuh sparsity handling
+
+#### 🔹 Deep Learning Embedding:
+- ✅ **Kelebihan**:
+  - Menangkap relasi non-linear dan kompleks
+  - Lebih akurat pada skala besar
+  - Bisa dikembangkan ke model *hybrid*
+- ❌ **Kekurangan**:
+  - Membutuhkan resource lebih tinggi
+  - Interpretasi hasil lebih sulit
+  - Waktu pelatihan relatif lama
+
 ---
 
 ## 📊 Data Understanding
@@ -82,7 +104,6 @@ Judul film
 10 film paling mirip berdasarkan kesamaan pola rating.
 
 **Contoh Kode:**
-
 ```python
 from sklearn.neighbors import NearestNeighbors
 
