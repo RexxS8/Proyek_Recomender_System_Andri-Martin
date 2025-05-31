@@ -145,8 +145,6 @@ Memprediksi rating yang mungkin diberikan user terhadap film tertentu.
 - Dense Layer
 - Output rating (regresi)
 
-- **Arsitektur Model**:
-
 ```mermaid
 graph LR
 A[User ID] --> B(Embedding Layer)
