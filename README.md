@@ -213,6 +213,21 @@ model = Model([user_input, movie_input], output)
 model.compile(optimizer='adam', loss='mse', metrics=['mae'])
 ```
 
+### Contoh Hasil Rekomendasi (Top-10 untuk user ID 3)
+
+| Rank | Movie ID  | Judul Film                                         | Predicted Rating |
+|------|-----------|----------------------------------------------------|------------------|
+| 1    | 53        | Lamerica (1994)                                    | 4.1165           |
+| 2    | 1310      | Hype! (1996)                                       | 4.1148           |
+| 3    | 5746      | Galaxy of Terror (Quest) (1981)                    | 4.0862           |
+| 4    | 26409     | Clonus Horror, The (1979)                          | 4.0816           |
+| 5    | 53280     | Breed, The (2006)                                  | 4.0339           |
+| 6    | 70946     | Troll 2 (1990)                                     | 4.0328           |
+| 7    | 121469    | Killer Movie (2008)                                | 4.0258           |
+| 8    | 131130    | Tom and Jerry: A Nutcracker Tale (2007)           | 3.9739           |
+| 9    | 131610    | Willy/Milly (1986)                                 | 3.9702           |
+| 10   | 158966    | Captain Fantastic (2016)                           | 3.9588           |
+
 ## 📈 Evaluation
 
 ### KNN (Collaborative Filtering)
