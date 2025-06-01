@@ -215,41 +215,60 @@ model.compile(optimizer='adam', loss='mse', metrics=['mae'])
 
 ### Contoh Hasil Rekomendasi (Top-10 untuk user ID 3)
 
-| Rank | Movie ID  | Judul Film                                         | Predicted Rating |
-|------|-----------|----------------------------------------------------|------------------|
-| 1    | 53        | Lamerica (1994)                                    | 4.1165           |
-| 2    | 1310      | Hype! (1996)                                       | 4.1148           |
-| 3    | 5746      | Galaxy of Terror (Quest) (1981)                    | 4.0862           |
-| 4    | 26409     | Clonus Horror, The (1979)                          | 4.0816           |
-| 5    | 53280     | Breed, The (2006)                                  | 4.0339           |
-| 6    | 70946     | Troll 2 (1990)                                     | 4.0328           |
-| 7    | 121469    | Killer Movie (2008)                                | 4.0258           |
-| 8    | 131130    | Tom and Jerry: A Nutcracker Tale (2007)           | 3.9739           |
-| 9    | 131610    | Willy/Milly (1986)                                 | 3.9702           |
-| 10   | 158966    | Captain Fantastic (2016)                           | 3.9588           |
+| Rank | Movie ID  | Judul Film                                                 | Predicted Rating |
+|------|-----------|------------------------------------------------------------|------------------|
+| 1    | 2068      | Fanny and Alexander (Fanny och Alexander) (1982)          | 4.1838           |
+| 2    | 3567      | Bossa Nova (2000)                                          | 4.1168           |
+| 3    | 5746      | Galaxy of Terror (Quest) (1981)                            | 4.1106           |
+| 4    | 8238      | Little Murders (1971)                                      | 4.1036           |
+| 5    | 25947     | Unfaithfully Yours (1948)                                  | 4.0941           |
+| 6    | 26169     | Branded to Kill (Koroshi no rakuin) (1967)                | 4.0757           |
+| 7    | 134004    | What Love Is (2007)                                        | 4.0003           |
+| 8    | 139640    | Ooops! Noah is Gone... (2015)                              | 3.9940           |
+| 9    | 167064    | I Am Not Your Negro (2017)                                 | 3.9799           |
+| 10   | 177593    | Three Billboards Outside Ebbing, Missouri (2017)          | 3.9671           |
+
+---
 
 ## 📈 Evaluation
 
 ### KNN (Collaborative Filtering)
-- **Evaluasi**: Berdasarkan relevansi hasil rekomendasi.
-- **Validasi**: Secara kualitatif dengan melihat kemiripan konten film yang direkomendasikan.
+- **Evaluasi Kualitatif**: Hasil rekomendasi dianalisis secara subjektif berdasarkan relevansi dan kesesuaian genre dengan preferensi pengguna.
+- **Evaluasi Kuantitatif**: Menggunakan metrik Precision@10 dan Recall@10 untuk lima pengguna sampel (User ID: 1, 15, 30, 45, 60).
+
+| User ID | Jumlah High-Rated Movies | Precision@10 | Recall@10 |
+|---------|---------------------------|--------------|-----------|
+| 1       | 200                       | 0.60         | 0.03      |
+| 15      | 56                        | 0.30         | 0.05      |
+| 30      | 31                        | 0.20         | 0.06      |
+| 45      | 270                       | 0.80         | 0.03      |
+| 60      | 13                        | 0.10         | 0.08      |
+
+**Rata-rata Precision@10**: 0.40  
+**Rata-rata Recall@10**: 0.05  
+
+> *Interpretasi*: Model KNN cenderung memberikan rekomendasi yang relevan (Precision cukup tinggi), namun cakupannya masih terbatas (Recall rendah).
+
+---
 
 ### Deep Learning (Embedding-based)
-- **Evaluasi**: Berdasarkan metrik regresi.
-- **Data**: Menggunakan data test.
+- **Evaluasi**: Menggunakan metrik regresi standar pada data uji (test set).
+- **Metode**: Perhitungan MSE dan MAE langsung dari prediksi model dan dibandingkan ulang untuk konsistensi.
 
-### 📈 Hasil Evaluasi Model Deep Learning (Embedding Based)
+### 📊 Hasil Evaluasi Model Deep Learning (Embedding Based)
 
 | Metrik | Skor   |
 |--------|--------|
-| MAE    | 0.6792 |
-| MSE    | 0.8147 |
+| MAE    | 0.6697 |
+| MSE    | 0.7686 |
+| RMSE   | 0.8767 |
 
 **Penjelasan:**
 - **MAE (Mean Absolute Error)**: Rata-rata selisih absolut antara rating yang diprediksi dan aktual.
-- **MSE (Mean Squared Error)**: Rata-rata kuadrat dari selisih antara prediksi dan aktual.
+- **MSE (Mean Squared Error)**: Rata-rata kuadrat dari selisih prediksi dan aktual.
+- **RMSE (Root Mean Squared Error)**: Akar dari MSE, menunjukkan seberapa besar deviasi prediksi terhadap nilai sebenarnya.
 
-Model ini menunjukkan performa yang cukup baik dalam memprediksi rating pengguna terhadap film. Nilai MAE dan MSE yang relatif rendah menunjukkan bahwa model mampu mempelajari pola interaksi pengguna dan film secara efektif
+> *Kesimpulan*: Model deep learning menunjukkan performa yang stabil dan cukup baik dalam mempelajari pola interaksi pengguna dan film, dengan error prediksi yang rendah.
 
 ---
 
