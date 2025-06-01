@@ -76,12 +76,23 @@ Distribusi rating berada di kisaran 3.0–4.0. Beberapa visualisasi awal meliput
 
 ## 🧹 Data Preparation
 
-Langkah-langkah preprocessing yang dilakukan:
-- Filtering data: Hanya menyertakan film dengan >10 rating dan user dengan >60 interaksi.
-- Mengubah data ke dalam bentuk matrix pivot (`movieId` x `userId`) dengan rating sebagai isi.
-- Mengisi nilai kosong dengan 0.
-- Menggunakan **Compressed Sparse Row Matrix (CSR)** untuk efisiensi memori dan komputasi.
+Langkah-langkah preprocessing yang dilakukan meliputi beberapa tahapan penting untuk memastikan data siap digunakan dalam model Collaborative Filtering dan Deep Learning:
 
+### 1. Filtering Data
+- Hanya menyertakan **film** yang memiliki lebih dari **10 rating**
+- Hanya menyertakan **pengguna** dengan lebih dari **60 interaksi (rating)**
+- Tujuannya adalah untuk mengurangi **noise** dan meningkatkan kualitas data interaksi yang digunakan model
+
+### 2. Pivot Table (User-Item Matrix)
+- Mengubah data ke dalam bentuk matriks pivot dengan format (`movieId` x `userId`)
+- Nilai isi matriks diisi oleh **rating** yang diberikan user ke film
+
+### 3. Handling Missing Values
+- Mengisi nilai kosong dalam matriks pivot dengan **0**, menandakan **tidak ada interaksi** antara user dan item
+
+### 4. Sparse Matrix Transformation
+- Mengubah matriks menjadi bentuk **Compressed Sparse Row (CSR)** menggunakan `scipy.sparse`
+- Hal ini penting untuk **efisiensi memori** dan **kecepatan komputasi** saat digunakan dalam algoritma KNN
 Contoh kode snippet:
 ```python
 from scipy.sparse import csr_matrix
@@ -90,6 +101,26 @@ rating_matrix = pivot_table.fillna(0)
 csr_data = csr_matrix(rating_matrix.values)
 ```
 
+### 5. TF-IDF Vectorization (Fallback Recommendation)
+- Membuat representasi **TF-IDF** dari **judul film**
+- Digunakan sebagai **fallback recommendation** ketika **film input tidak ditemukan** dalam dataset Collaborative Filtering berbasis KNN
+
+### 6. Encoding untuk Model Deep Learning
+- Melakukan mapping `userId` dan `movieId` ke dalam **representasi numerik berurutan** menggunakan `LabelEncoder`
+- Membuat dictionary seperti:
+  - `user2user_encoded`
+  - `movie2movie_encoded`
+  - `user_encoded2user`
+  - `movie_encoded2movie`
+- Dictionary ini digunakan kembali dalam proses **prediksi**, **pelatihan**, dan **interpretasi hasil**
+
+### 7. Train-Test Split
+- Membagi dataset menjadi:
+  - **80% data training**
+  - **20% data testing**
+- Pembagian ini digunakan untuk **melatih** dan **mengevaluasi** model rekomendasi berbasis **Deep Learning (Embedding-based)**
+
+---
 # 🤖 Modeling dan Evaluasi Sistem Rekomendasi Film
 
 ## 1️⃣ Collaborative Filtering (Item-to-Item KNN)
