@@ -273,6 +273,11 @@ model.compile(optimizer='adam', loss='mse', metrics=['mae'])
 ---
 
 ## ✅ Kesimpulan
-- **Collaborative Filtering** berbasis KNN cocok untuk memberikan rekomendasi film serupa, mudah diinterpretasikan, dan efektif.
-- **Deep Learning** dengan embedding mampu menangkap relasi kompleks antar pengguna dan film, serta memprediksi rating dengan cukup akurat.
-- Kedua pendekatan dapat digabungkan menjadi **Hybrid Recommendation System** untuk hasil yang lebih optimal.
+
+Sistem rekomendasi berbasis **Collaborative Filtering (KNN)** berhasil dibangun dan menunjukkan performa baik dalam memberikan rekomendasi film yang **mirip** berdasarkan pola rating pengguna. Metode ini cocok digunakan dalam skenario *item-to-item recommendation*, mudah diinterpretasikan, dan cepat di-*deploy*.
+
+Pendekatan berbasis **Deep Learning dengan embedding layer** memperluas kemampuan sistem untuk **memprediksi rating**, bahkan terhadap kombinasi *user–movie* yang belum pernah muncul sebelumnya. Model ini menunjukkan fleksibilitas tinggi dan mampu menangkap **hubungan laten antar pengguna dan film**, sehingga cocok untuk sistem skala besar.
+
+Kelemahan dari Collaborative Filtering terletak pada **cold-start problem**, sedangkan model Deep Learning membutuhkan **sumber daya komputasi lebih besar** dan proses training yang lebih kompleks.
+
+Secara umum, kedua pendekatan saling melengkapi dan sangat potensial jika digabungkan menjadi **Hybrid Recommendation System** agar sistem dapat memberikan rekomendasi yang lebih **akurat, personal**, dan **tahan terhadap masalah cold-start**.
