@@ -247,6 +247,66 @@ def get_movie_recommendation(movie_name):
 
     return pd.DataFrame(recommendations, columns=['Title', 'Average Rating', 'Distance']).set_index('Distance')
 
+# Quantitative Evaluation for KNN Model
+def evaluate_knn_model(user_id, n_recommendations=10):
+    """
+    Evaluate KNN model for a specific user using precision@k and recall@k
+
+    Parameters:
+    - user_id: ID of user to evaluate
+    - n_recommendations: Number of recommendations to consider (k)
+    """
+    # Get actual high-rated movies by user
+    actual_high_rated = ratings[
+        (ratings['userId'] == user_id) &
+        (ratings['rating'] >= 4.0)
+    ]['movieId'].tolist()
+
+    # Skip if user doesn't have enough high-rated movies
+    if len(actual_high_rated) < 5:
+        return None, None, None
+
+    # Get recommendations using collaborative filtering
+    recommended_movies = []
+    for movie_id in actual_high_rated[:5]:  # Use first 5 high-rated movies as input
+        movie_title = movies[movies['movieId'] == movie_id]['title'].values[0]
+        recommendations = get_movie_recommendation(movie_title)
+        recommended_movies.extend(recommendations['Title'].tolist())
+
+    # Remove duplicates
+    recommended_movies = list(set(recommended_movies))[:n_recommendations]
+
+    # Convert titles to movie IDs
+    recommended_ids = []
+    for title in recommended_movies:
+        match = movies[movies['title'] == title]
+        if not match.empty:
+            recommended_ids.append(match['movieId'].values[0])
+
+    # Calculate precision and recall
+    relevant_recommended = len(set(recommended_ids) & set(actual_high_rated))
+    precision = relevant_recommended / n_recommendations
+    recall = relevant_recommended / len(actual_high_rated)
+
+    return precision, recall, len(actual_high_rated)
+
+# Evaluate on sample users
+sample_users = [1, 15, 30, 45, 60]
+precisions = []
+recalls = []
+
+for user_id in sample_users:
+    precision, recall, n_high_rated = evaluate_knn_model(user_id)
+    if precision is not None:
+        precisions.append(precision)
+        recalls.append(recall)
+        print(f"User {user_id} (with {n_high_rated} high-rated movies):")
+        print(f"  Precision@10: {precision:.2f}, Recall@10: {recall:.2f}")
+
+if precisions:
+    print(f"\nAverage Precision@10: {np.mean(precisions):.2f}")
+    print(f"Average Recall@10: {np.mean(recalls):.2f}")
+
 """# **7. Deep Learning Model (Optional - Embedding Based)**
 
 Pada tahap ini, dilakukan pembangunan model rekomendasi berbasis *deep learning* yang memanfaatkan embedding untuk memetakan pengguna dan item (film) ke dalam vektor berdimensi rendah. Vektor ini mewakili preferensi pengguna dan karakteristik film dalam ruang laten.
@@ -265,6 +325,7 @@ Memprediksi rating yang mungkin diberikan pengguna terhadap suatu film berdasark
 Model dikompilasi dengan fungsi loss mean_squared_error, karena targetnya adalah memprediksi nilai rating kontinu.
 """
 
+print("\nEncoding user and movie IDs for Deep Learning model...")
 user_ids = ratings['userId'].unique().tolist()
 movie_ids = ratings['movieId'].unique().tolist()
 
@@ -276,10 +337,17 @@ movieencoded2movie = {i: x for i, x in enumerate(movie_ids)}
 ratings['user'] = ratings['userId'].map(user2user_encoded)
 ratings['movie'] = ratings['movieId'].map(movie2movie_encoded)
 
+print(f"Total users: {len(user2user_encoded)}")
+print(f"Total movies: {len(movie2movie_encoded)}")
+
+print("\nSplitting data into training and test sets...")
 x = ratings[['user', 'movie']].values
 y = ratings['rating'].values
 
 x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.2, random_state=42)
+
+print(f"Training data shape: {x_train.shape}")
+print(f"Testing data shape: {x_test.shape}")
 
 # 7. Deep Learning Model
 # Jumlah user dan movie
@@ -399,6 +467,26 @@ plt.title("Visualisasi y_test vs y_pred")
 plt.grid(True)
 plt.show()
 
+# Consistent Deep Learning Evaluation
+# Re-evaluate to ensure consistency
+test_loss, test_mae = model.evaluate([x_test[:, 0], x_test[:, 1]], y_test, verbose=0)
+y_pred = model.predict([x_test[:, 0], x_test[:, 1]]).flatten()
+mse = mean_squared_error(y_test, y_pred)
+rmse = np.sqrt(mse)
+
+print("\n=== Deep Learning Model Evaluation ===")
+print(f"Test Loss (MSE): {test_loss:.4f}")
+print(f"Test MAE: {test_mae:.4f}")
+print(f"Calculated MSE: {mse:.4f}")
+print(f"Calculated RMSE: {rmse:.4f}")
+
+# Save metrics for reporting
+dl_metrics = {
+    'MAE': round(test_mae, 4),
+    'MSE': round(mse, 4),
+    'RMSE': round(rmse, 4)
+}
+
 """# **9. Fungsi Rekomendasi Berdasarkan User ID dengan Model DL**"""
 
 def recommend_movies_for_user(user_id, num_recommendations=10):
@@ -422,4 +510,15 @@ def recommend_movies_for_user(user_id, num_recommendations=10):
 
 get_movie_recommendation('Captain America: The Winter Soldier')
 
-recommend_movies_for_user(user_id=3, num_recommendations=10)
+print("Deep Learning Recommendations for User ID 3:")
+dl_recommendations = recommend_movies_for_user(user_id=3, num_recommendations=10)
+display(dl_recommendations)
+
+# Visualize the recommendations
+plt.figure(figsize=(10, 6))
+sns.barplot(data=dl_recommendations, x='Predicted Rating', y='title', palette='viridis')
+plt.title('Top 10 Recommendations for User 3 (Deep Learning Model)')
+plt.xlabel('Predicted Rating')
+plt.ylabel('Movie Title')
+plt.tight_layout()
+plt.show()
