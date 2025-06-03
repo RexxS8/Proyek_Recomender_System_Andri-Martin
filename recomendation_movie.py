@@ -99,6 +99,9 @@ Berikut film dengan penilaian tertinggi:
 # Bentuk pivot tabel dari rating
 data = pd.pivot_table(ratings, index='movieId', columns='userId', values='rating')
 
+# Handling Missing Values
+data.fillna(0, inplace=True)
+
 # Distribusi jumlah vote per movie dan per user
 numberOf_user_voted_for_movie = ratings.groupby('movieId')['rating'].agg('count').reset_index()
 numberOf_movies_voted_by_user = ratings.groupby('userId')['rating'].agg('count').reset_index()
@@ -122,6 +125,7 @@ sns.histplot(ratings['rating'], bins=10, kde=True)
 plt.title("Distribusi Rating")
 plt.show()
 
+# Filter movies with at least 10 ratings and users with at least 60 ratings
 top_movies = ratings.groupby('movieId')['rating'].agg(['mean', 'count'])
 top_movies = top_movies.merge(movies, on='movieId')
 top_movies.sort_values('count', ascending=False).head(10)
@@ -171,10 +175,11 @@ Matrix rating diubah menjadi **Compressed Sparse Row (CSR)** untuk efisiensi pem
 """
 
 # 5. Data Preprocessing
-data.fillna(0, inplace=True)
 data_final = data.loc[numberOf_user_voted_for_movie[numberOf_user_voted_for_movie['rating'] > 10]['movieId'], :]
 data_final = data_final.loc[:, numberOf_movies_voted_by_user[numberOf_movies_voted_by_user['rating'] > 60]['userId']]
 data_final.reset_index(inplace=True)
+
+# Convert DataFrame to sparse matrix format
 csr_data = csr_matrix(data_final.drop('movieId', axis=1).values)
 
 """# **6. Pembangunan Model Collaborative Filtering (KNN)**
