@@ -78,17 +78,17 @@ Distribusi rating berada di kisaran 3.0–4.0. Beberapa visualisasi awal meliput
 
 Langkah-langkah preprocessing yang dilakukan meliputi beberapa tahapan penting untuk memastikan data siap digunakan dalam model Collaborative Filtering dan Deep Learning:
 
-### 1. Filtering Data
-- Hanya menyertakan **film** yang memiliki lebih dari **10 rating**
-- Hanya menyertakan **pengguna** dengan lebih dari **60 interaksi (rating)**
-- Tujuannya adalah untuk mengurangi **noise** dan meningkatkan kualitas data interaksi yang digunakan model
-
-### 2. Pivot Table (User-Item Matrix)
+### 1. Pivot Table (User-Item Matrix)
 - Mengubah data ke dalam bentuk matriks pivot dengan format (`movieId` x `userId`)
 - Nilai isi matriks diisi oleh **rating** yang diberikan user ke film
 
-### 3. Handling Missing Values
+### 2. Handling Missing Values
 - Mengisi nilai kosong dalam matriks pivot dengan **0**, menandakan **tidak ada interaksi** antara user dan item
+
+### 3. Filtering Data
+- Hanya menyertakan **film** yang memiliki lebih dari **10 rating**
+- Hanya menyertakan **pengguna** dengan lebih dari **60 interaksi (rating)**
+- Tujuannya adalah untuk mengurangi **noise** dan meningkatkan kualitas data interaksi yang digunakan model
 
 ### 4. Sparse Matrix Transformation
 - Mengubah matriks menjadi bentuk **Compressed Sparse Row (CSR)** menggunakan `scipy.sparse`
@@ -214,19 +214,24 @@ model.compile(optimizer='adam', loss='mse', metrics=['mae'])
 ```
 
 ### Contoh Hasil Rekomendasi (Top-10 untuk user ID 3)
+```python
+print("Deep Learning Recommendations for User ID 3:")
+dl_recommendations = recommend_movies_for_user(user_id=3, num_recommendations=10)
+display(dl_recommendations)
+```
 
-| Rank | Movie ID  | Judul Film                                                 | Predicted Rating |
-|------|-----------|------------------------------------------------------------|------------------|
-| 1    | 2068      | Fanny and Alexander (Fanny och Alexander) (1982)          | 4.1838           |
-| 2    | 3567      | Bossa Nova (2000)                                          | 4.1168           |
-| 3    | 5746      | Galaxy of Terror (Quest) (1981)                            | 4.1106           |
-| 4    | 8238      | Little Murders (1971)                                      | 4.1036           |
-| 5    | 25947     | Unfaithfully Yours (1948)                                  | 4.0941           |
-| 6    | 26169     | Branded to Kill (Koroshi no rakuin) (1967)                | 4.0757           |
-| 7    | 134004    | What Love Is (2007)                                        | 4.0003           |
-| 8    | 139640    | Ooops! Noah is Gone... (2015)                              | 3.9940           |
-| 9    | 167064    | I Am Not Your Negro (2017)                                 | 3.9799           |
-| 10   | 177593    | Three Billboards Outside Ebbing, Missouri (2017)          | 3.9671           |
+| Rank | Movie ID | Judul Film                                | Predicted Rating |
+| ---- | -------- | ----------------------------------------- | ---------------- |
+| 1    | 2360     | Celebration, The (Festen) (1998)          | 4.2416           |
+| 2    | 3531     | All the Vermeers in New York (1990)       | 4.0417           |
+| 3    | 5915     | Victory (a.k.a. Escape to Victory) (1981) | 4.0225           |
+| 4    | 6835     | Alien Contamination (1980)                | 3.9989           |
+| 5    | 7614     | Oklahoma! (1955)                          | 3.9864           |
+| 6    | 25947    | Unfaithfully Yours (1948)                 | 3.9770           |
+| 7    | 26810    | Bad Boy Bubby (1993)                      | 3.9765           |
+| 8    | 72692    | Mickey's Once Upon a Christmas (1999)     | 3.9754           |
+| 9    | 87234    | Submarine (2010)                          | 3.9743           |
+| 10   | 106642   | Day of the Doctor, The (2013)             | 3.9608           |
 
 ---
 
@@ -259,9 +264,9 @@ model.compile(optimizer='adam', loss='mse', metrics=['mae'])
 
 | Metrik | Skor   |
 |--------|--------|
-| MAE    | 0.6697 |
-| MSE    | 0.7686 |
-| RMSE   | 0.8767 |
+| MAE    | 0.6702 |
+| MSE    | 0.7672 |
+| RMSE   | 0.8759 |
 
 **Penjelasan:**
 - **MAE (Mean Absolute Error)**: Rata-rata selisih absolut antara rating yang diprediksi dan aktual.
