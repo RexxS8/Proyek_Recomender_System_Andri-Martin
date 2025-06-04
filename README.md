@@ -18,13 +18,18 @@ Referensi terkait:
 - Bagaimana memberikan rekomendasi film yang relevan berdasarkan film yang disukai pengguna?
 - Bagaimana memprediksi rating yang akan diberikan oleh pengguna terhadap film yang belum pernah mereka tonton?
 
-### 🎯 Goals
-- Membangun sistem *Collaborative Filtering* berbasis item menggunakan KNN dan cosine similarity.
-- Membangun model Deep Learning berbasis embedding untuk prediksi rating pengguna terhadap film tertentu.
+### 🎯 Goals (Tujuan)
+- Membangun sistem **item-based Collaborative Filtering** menggunakan algoritma **K-Nearest Neighbors (KNN)** dengan metrik **cosine similarity** untuk merekomendasikan film yang mirip berdasarkan pola rating pengguna.
+- Membangun model **Deep Learning berbasis embedding** untuk **memprediksi rating** antara pengguna dan film, termasuk untuk pasangan yang belum pernah muncul (*user–item pairs* baru).
 
-### 💡 Solution Statements
-- **Pendekatan 1**: Menggunakan **KNN** dengan cosine similarity untuk menghitung kemiripan antar film berdasarkan pola rating pengguna.
-- **Pendekatan 2**: Membangun model **Deep Learning** dengan dua embedding layer untuk mempelajari representasi laten pengguna dan film.
+### 💡 Solution Statements (Pernyataan Solusi)
+#### 🔹 Pendekatan 1: Collaborative Filtering (KNN)
+- Menggunakan algoritma **K-Nearest Neighbors** dari `sklearn.neighbors.NearestNeighbors` dengan **cosine similarity** untuk menghitung kemiripan antar item (film).
+- Metode ini cocok untuk **item-to-item recommendation**, cepat dalam pelatihan dan inferensi, serta mudah diinterpretasikan.
+#### 🔹 Pendekatan 2: Deep Learning Embedding
+- Mengembangkan model **neural network sederhana** yang terdiri dari dua **embedding layer** untuk merepresentasikan **user** dan **movie** dalam bentuk vektor laten.
+- Model ini memanfaatkan kemampuan **Deep Learning** untuk **menangkap hubungan kompleks dan non-linear**, memungkinkan prediksi rating bahkan untuk pasangan *user–movie* yang belum pernah muncul.
+- Walaupun memerlukan **komputasi lebih besar** dan **waktu pelatihan lebih lama**, pendekatan ini cocok untuk **sistem berskala besar** dan dapat menjadi pondasi untuk **sistem rekomendasi hybrid** di masa depan.
 
 ### ⚖️ Kelebihan & Kekurangan Pendekatan
 
