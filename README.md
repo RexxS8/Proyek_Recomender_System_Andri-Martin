@@ -81,6 +81,9 @@ Langkah-langkah preprocessing yang dilakukan meliputi beberapa tahapan penting u
 ### 1. Pivot Table (User-Item Matrix)
 - Mengubah data ke dalam bentuk matriks pivot dengan format (`movieId` x `userId`)
 - Nilai isi matriks diisi oleh **rating** yang diberikan user ke film
+```python
+data = pd.pivot_table(ratings, index='movieId', columns='userId', values='rating')
+```
 
 ### 2. Handling Missing Values
 - Mengisi nilai kosong dalam matriks pivot dengan **0**, menandakan **tidak ada interaksi** antara user dan item
